@@ -1,0 +1,124 @@
+{% extends 'base.html' %} <!-- base.html의 내용을 가져오겠다. -->
+{% load staticfiles %}
+{% block content %}
+<!-- Gallery -->
+<section id="main">
+
+<!-- Header -->
+<header id="header">
+	<div>DGULION <span>by JISU</span></div>
+</header>
+<section id="galleries">
+
+	<!-- Photo Galleries -->
+		<div class="gallery">
+			
+			<!-- Filters -->
+				<header>
+					<h1>Gallery</h1>
+					<ul class="tabs">
+						<li><a href="#" data-tag="all" class="button active">All</a></li>
+						<li><a href="#" data-tag="people" class="button">People</a></li>
+						<li><a href="#" data-tag="place" class="button">Places</a></li>
+						<li><a href="#" data-tag="thing" class="button">Things</a></li>
+					</ul>
+				</header>
+
+				<div class="content">
+					<div class="media all people">
+						<a href="{% static 'images/fulls/01.jpg' %}"><img src="{% static 'images/thumbs/01.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all place">
+						<a href="{% static 'images/fulls/05.jpg' %}"><img src="{% static 'images/thumbs/05.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all thing">
+						<a href="{% static 'images/fulls/09.jpg' %}"><img src="{% static 'images/thumbs/09.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all people">
+						<a href="{% static 'images/fulls/02.jpg' %}"><img src="{% static 'images/thumbs/02.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all place">
+						<a href="{% static 'images/fulls/06.jpg' %}"><img src="{% static 'images/thumbs/06.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all thing">
+						<a href="{% static 'images/fulls/10.jpg' %}"><img src="{% static 'images/thumbs/10.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all people">
+						<a href="{% static 'images/fulls/03.jpg' %}"><img src="{% static 'images/thumbs/03.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all place">
+						<a href='{% static "images/fulls/07.jpg" %}'><img src="{% static 'images/thumbs/07.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all thing">
+						<a href="{% static 'images/fulls/11.jpg' %}"><img src="{% static 'images/thumbs/11.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all people">
+						<a href="{% static 'images/fulls/04.jpg' %}"><img src="{% static 'images/thumbs/04.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all place">
+						<a href="{% static 'images/fulls/08.jpg' %}"><img src="{% static 'images/thumbs/08.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+					<div class="media all thing">
+						<a href="{% static 'images/fulls/12.jpg' %}"><img src="{% static 'images/thumbs/12.jpg' %}" alt="" title="This right here is a caption." /></a>
+					</div>
+				</div>
+		</div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+	<!-- Social -->
+		<div class="social column">
+			{% if user.is_authenticated %} 로그인이 되었을 경우
+			  안녕 {{ user.username }}!
+			<a href="#">logout</a>
+			<a href="#">새 글 쓰기</a>
+			<p>===========================</p>
+			{% for post in posts %}
+			    <a href="#"><h2>#{{ post.id }} : {{ post.title }}</h2></a>
+			    <p>쓰니: {{ post.username }}</p>
+			    <p>===========================</p>
+			    {% empty %}
+			    <p>글이 없습니다.</p>
+			{% endfor %}
+
+			{% else %} 로그인이 되지 않을 경우
+			  <p>You are not logged in</p>
+			  <a href="{% url 'account_login' %}">login</a>
+			{% endif %}
+		</div>
+
+	<!-- Form -->
+		<div class="column">
+			<h3>Get in Touch</h3>
+			<form action="#" method="post">
+				<div class="field half first">
+					<label for="name">Name</label>
+					<input name="name" id="name" type="text" placeholder="Name">
+				</div>
+				<div class="field half">
+					<label for="email">Email</label>
+					<input name="email" id="email" type="email" placeholder="Email">
+				</div>
+				<div class="field">
+					<label for="message">Message</label>
+					<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
+				</div>
+				<ul class="actions">
+					<li><input value="Send Message" class="button" type="submit"></li>
+				</ul>
+			</form>
+		</div>
+
+</section>
+
+
+
+<!-- Footer -->
+<footer id="footer">
+	<div class="copyright">
+		&copy; Untitled Design: <a href="https://templated.co/">TEMPLATED</a>. Images: <a href="https://unsplash.com/">Unsplash</a>.
+	</div>
+</footer>
+</section>						
+{% endblock %} 
