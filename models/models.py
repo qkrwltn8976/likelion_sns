@@ -34,9 +34,15 @@ class Relation(models.Model): ## 관계 정의
 	type = models.CharField(max_length=1, choices=CHOICES_TYPE)
 
 
-#class Post(models.Model):
-#	objects = models.Manager()
+class Post(models.Model):
+	objects = models.Manager()
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	content = models.TextField()
+	pic = models.ImageField(upload_to = "static/images/", null = True)
+	mark = models.ManyToManyField(User, related_name='mark')
+	like = models.ManyToManyField(User, related_name='like')
 
-#	created_at = models.DateTimeField(auto_now_add=True)
-#	updated_at = models.DateTimeField(auto_now=True)
-# Create your models here.
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	
