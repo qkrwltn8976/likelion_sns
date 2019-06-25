@@ -40,25 +40,7 @@ class Post(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	content = models.TextField()
 	image = ImageCropField(upload_to = "static/images/", blank = True)
-	cropping = ImageRatioField('image', '450x450')
-
-	#image_height = models.PositiveIntegerField(null=True, blank=True, editable=False, default="300")
-	#image_width = models.PositiveIntegerField(null=True, blank=True, editable=False, default="300")
-	#def __unicode__(self):
-	#	return "{0}".format(self.image)
-
-	#def save(self):
-		#if not self.image:
-		#	return            
-
-		#super(Post, self).save()
-		#image = Image.open(self.image)
-		#(width, height) = image.size     
-		#size = ( 300, image.size[1])
-		#image = image.resize(size, Image.ANTIALIAS)
-		#image.save(self.image.path)
-      
-       
+	cropping = ImageRatioField('image', '300x300')
 	mark = models.ManyToManyField(User, related_name='mark')
 	like = models.ManyToManyField(User, related_name='like')
 

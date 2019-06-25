@@ -21,13 +21,11 @@
 					</form>
 				</header>
 
-				<div class="content">
+				<div class="center">
 				{% for post in posts %}
 				{% load thumbnail %}
-				<div class="media all people">
-					<div class = "card" style="height: 450; width: 450;">
-						<a href="{% url 'main:detail_post' post.id %}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}} #{{post.user.first_name}}"/></a>
-					</div>
+				<div class="dot">
+						<a href="{% url 'main:detail_post' post.id %}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" class="my-image" title="{{post.content}} #{{post.user.first_name}}"/></a>
 				</div>
 				{% endfor %}
 				</div>

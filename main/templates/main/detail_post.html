@@ -3,23 +3,31 @@
 {% block content %}
 {% load thumbnail %}
 <section id="galleries">	<!-- Photo Galleries -->
-	<div class="gallery">
-		<button class="btn btn-link" type="button" onclick="location.href='{% url 'main:profile' post.user.id %}' ">{{post.user.username}}</button>
-		<button class="btn btn-post-toggle btn-link" aria-label="Like button" onclick="location.href='{% url 'main:like_toggle' post.id %}'">
-  		<span
-	 	 class="glyphicon
-	    	{% if post in user.like.all %}
-	      	glyphicon-heart
-			{% else %}
-			glyphicon-heart-empty
-			{% endif %}"
-	 	 aria-hidden="true"></span>
-		</button>
+	<div class="gallery center">
 		<div class="content">
-		<div class = "card" style="height: 500; width: 500;">
-			<a href="{{post.image.url}}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}} #{{post.user.first_name}}" /></a>
+			<div class = "card" style="margin:auto">
+				<button class="btn btn-link" type="button" onclick="location.href='{% url 'main:profile' post.user.id %}' ">{{post.user.username}}</button>
+				<button class="btn btn-post-toggle btn-link" aria-label="Like button" onclick="location.href='{% url 'main:like_toggle' post.id %}'" style="margin:auto; text-align: center">
+		  		<span
+			 	 class="glyphicon
+			    	{% if post in user.like.all %}
+			      	glyphicon-heart
+					{% else %}
+					glyphicon-heart-empty
+					{% endif %}"
+			 	 aria-hidden="true"></span>
+				</button>
+			</div>
 		</div>
-	</div>
+		<div class="content">
+			<div class = "card" style="margin:auto">
+
+				<a href="{{post.image.url}}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}} #{{post.user.first_name}}" /></a>
+
+				<p>{{post.content | linebreaks}}</p>
+
+			</div>
+		</div>
 	</div>
 </section>
 

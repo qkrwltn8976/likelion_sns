@@ -28,12 +28,12 @@
 	<!-- Photo Galleries -->
 	<div class="gallery">
 		<h1>My Posts</h1>
-		<div class="content">
+		<div class="center">
 			<!-- Filters -->
 			{% load thumbnail %}
 			{% for post in posts %}		
-					<div class="media all people">
-						<a href="{{post.image.url}}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}}" /></a>
+					<div class="dot">
+						<a href="{% url 'main:detail_post' post.id %}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" class="dot" title="{{post.content}}" /></a>
 					</div>
 			{% endfor %}
 		</div>

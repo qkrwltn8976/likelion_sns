@@ -834,7 +834,7 @@
 			-ms-justify-content: -ms-flex-start;
 			justify-content: flex-start;
 		}
-
+		
 			.gallery .content .media {
 				-moz-animation: gallery 0.75s ease-out 0.4s forwards;
 				-webkit-animation: gallery 0.75s ease-out 0.4s forwards;
