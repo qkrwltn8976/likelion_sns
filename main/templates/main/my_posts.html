@@ -1,0 +1,43 @@
+{% extends 'base.html' %} <!-- base.html의 내용을 가져오겠다. -->
+{% load staticfiles %}
+{% block content %}
+<section id="contact">
+
+	<!-- Form -->
+		<div class="column">
+			<h1>My Profile</h1>
+			<form action="#" method="post">
+				<div class="field half first">
+					<label for="name">ID</label>
+					<p>{{user.username}}</p>
+				</div>
+				<div class="field half">
+					<label for="name">Name</label>
+					<p>{{user.last_name}}{{user.first_name}}</p>
+				</div>
+				<div class="field half">
+					<label for="email">Email</label>
+					<p>{{user.email}}</p>
+				</div>
+			</form>
+		</div>
+
+</section>		
+<section id="galleries">
+	
+	<!-- Photo Galleries -->
+	<div class="gallery">
+		<h1>My Posts</h1>
+		<div class="content">
+			<!-- Filters -->
+			{% load thumbnail %}
+			{% for post in posts %}		
+					<div class="media all people">
+						<a href="{{post.image.url}}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}}" /></a>
+					</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+{% endblock %}  

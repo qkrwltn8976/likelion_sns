@@ -1,15 +1,19 @@
 from django import forms
 from models.models import Post, User
+from image_cropping import ImageCropWidget
 
 class PostForm(forms.ModelForm):
-	pic = forms.ImageField()
+	image = forms.ImageField()
 	class Meta:
 		model = Post
 		fields = [
+			'image',
 			'content',
-			'pic',
 		] 
 		labels = {
+			'image': "이미지",
 			'content': "내용",
-			'pic': "이미지"
+		}
+		widgets = {
+			'image' : ImageCropWidget,
 		}

@@ -10,51 +10,26 @@
 			<!-- Filters -->
 				<header>
 					<h1>Gallery</h1>
-					<ul class="tabs">
-						<li><a href="#" data-tag="all" class="button active">All</a></li>
-						<li><a href="#" data-tag="people" class="button">People</a></li>
-						<li><a href="#" data-tag="place" class="button">Places</a></li>
-						<li><a href="#" data-tag="thing" class="button">Things</a></li>
-					</ul>
+					<form action="{% url 'main:filter' %}" method="POST">
+						{% csrf_token %}
+						<ul class="tabs">
+							<li><input type="submit" name="action" value="all" /></li>
+							<li><input type="submit" name="action" value="friend" /></li>
+							<li><input type="submit" name="action" value="acquaintance" /></li>
+							<li><input type="submit" name="action" value="celebrity" /></li>
+						</ul>
+					</form>
 				</header>
 
 				<div class="content">
-					<div class="media all people">
-						<a href="{% static 'images/fulls/01.jpg' %}"><img src="{% static 'images/thumbs/01.jpg' %}" alt="" title="This right here is a caption." /></a>
+				{% for post in posts %}
+				{% load thumbnail %}
+				<div class="media all people">
+					<div class = "card" style="height: 450; width: 450;">
+						<a href="{% url 'main:detail_post' post.id %}"><img src="{% thumbnail post.image 450x450 box=post.cropping crop detail %}" alt="" title="{{post.content}} #{{post.user.first_name}}"/></a>
 					</div>
-					<div class="media all place">
-						<a href="{% static 'images/fulls/05.jpg' %}"><img src="{% static 'images/thumbs/05.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all thing">
-						<a href="{% static 'images/fulls/09.jpg' %}"><img src="{% static 'images/thumbs/09.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all people">
-						<a href="{% static 'images/fulls/02.jpg' %}"><img src="{% static 'images/thumbs/02.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all place">
-						<a href="{% static 'images/fulls/06.jpg' %}"><img src="{% static 'images/thumbs/06.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all thing">
-						<a href="{% static 'images/fulls/10.jpg' %}"><img src="{% static 'images/thumbs/10.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all people">
-						<a href="{% static 'images/fulls/03.jpg' %}"><img src="{% static 'images/thumbs/03.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all place">
-						<a href='{% static "images/fulls/07.jpg" %}'><img src="{% static 'images/thumbs/07.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all thing">
-						<a href="{% static 'images/fulls/11.jpg' %}"><img src="{% static 'images/thumbs/11.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all people">
-						<a href="{% static 'images/fulls/04.jpg' %}"><img src="{% static 'images/thumbs/04.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all place">
-						<a href="{% static 'images/fulls/08.jpg' %}"><img src="{% static 'images/thumbs/08.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
-					<div class="media all thing">
-						<a href="{% static 'images/fulls/12.jpg' %}"><img src="{% static 'images/thumbs/12.jpg' %}" alt="" title="This right here is a caption." /></a>
-					</div>
+				</div>
+				{% endfor %}
 				</div>
 		</div>
 </section>
@@ -68,13 +43,6 @@
 			<a href="#">logout</a>
 			<a href="#">새 글 쓰기</a>
 			<p>===========================</p>
-			{% for post in posts %}
-			    <a href="#"><h2>#{{ post.id }} : {{ post.title }}</h2></a>
-			    <p>쓰니: {{ post.username }}</p>
-			    <p>===========================</p>
-			    {% empty %}
-			    <p>글이 없습니다.</p>
-			{% endfor %}
 
 			{% else %} 로그인이 되지 않을 경우
 			  <p>You are not logged in</p>

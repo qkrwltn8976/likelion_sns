@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
-
+from PIL import Image
+from image_cropping import ImageCropField, ImageRatioField
 
 class User(AbstractUser):
 	#image = ImageField(_("Image of User"), upload_to="img/", default="none/default_profile.jpg")
@@ -9,7 +10,7 @@ class User(AbstractUser):
 		'self',
 		symmetrical=False,
 		through = 'Relation',
-		related_name = '+' ##related_name이 +이므로 User.+.all()하면 모델을 참조하는 모든 관계들이 나온다
+		related_name = '+' 
 	)
 
 class Relation(models.Model): ## 관계 정의
@@ -17,9 +18,9 @@ class Relation(models.Model): ## 관계 정의
 	RELATION_TYPE_ACQUAINT = 'a' ##acquaintance 지인
 	RELATION_TYPE_CELEB = 'c' ##celebrity 유명인사
 	CHOICES_TYPE = (
-		(RELATION_TYPE_FRIEND, '친구'),
-		(RELATION_TYPE_ACQUAINT, '지인'),
-		(RELATION_TYPE_CELEB, '유명인사'),
+		(RELATION_TYPE_FRIEND, 'friend'),
+		(RELATION_TYPE_ACQUAINT, 'acqaintance'),
+		(RELATION_TYPE_CELEB, 'celebrity'),
 	)
 	from_user = models.ForeignKey(
 		User,
@@ -38,7 +39,26 @@ class Post(models.Model):
 	objects = models.Manager()
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	content = models.TextField()
-	pic = models.ImageField(upload_to = "static/images/", null = True)
+	image = ImageCropField(upload_to = "static/images/", blank = True)
+	cropping = ImageRatioField('image', '450x450')
+
+	#image_height = models.PositiveIntegerField(null=True, blank=True, editable=False, default="300")
+	#image_width = models.PositiveIntegerField(null=True, blank=True, editable=False, default="300")
+	#def __unicode__(self):
+	#	return "{0}".format(self.image)
+
+	#def save(self):
+		#if not self.image:
+		#	return            
+
+		#super(Post, self).save()
+		#image = Image.open(self.image)
+		#(width, height) = image.size     
+		#size = ( 300, image.size[1])
+		#image = image.resize(size, Image.ANTIALIAS)
+		#image.save(self.image.path)
+      
+       
 	mark = models.ManyToManyField(User, related_name='mark')
 	like = models.ManyToManyField(User, related_name='like')
 

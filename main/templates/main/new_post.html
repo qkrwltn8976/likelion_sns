@@ -1,13 +1,18 @@
 {% extends 'base.html' %} <!-- base.html의 내용을 가져오겠다. -->
 {% load staticfiles %}
 {% block content %}
-<form action="{% url 'main:new_post' %}" method="POST" enctype="multipart/form-data">
-	{% csrf_token %}
-	<div class="control-group">
-	    <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit" class="btn btn-primary" value="작성">
- 	</div>
-</form>
+<head>{{form.media}}</head>
+<section id="galleries">
+	<div class="gallery">
+		<form action="{% url 'main:new_post' %}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="control-group">
+			    <table>
+		            {{ form.as_table }}
+		        </table>
+		        <input type="submit" class="btn btn-primary" value="작성">
+		 	</div>
+		</form>
+	</div>
+</section>
 {% endblock %}  

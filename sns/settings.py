@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'allauth.account', # new
     'allauth.socialaccount', # new 소셜 미디어 아이디로 로그인
     'allauth.socialaccount.providers.github', # new 깃 아이디로 로그인
+    'easy_thumbnails',
+    'image_cropping',
     'main',
     'models',
 ]
@@ -152,3 +154,11 @@ AUTH_USER_MODEL = 'models.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+IMAGE_CROPPING_BACKEND_PARAMS = {}
