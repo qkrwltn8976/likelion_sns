@@ -6,9 +6,10 @@ from django.db.models import Count
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 def home(request):
-	posts = Post.objects.exclude(
-		user = request.user
-	)
+	if request.user.is_active:
+		posts = Post.objects.exclude(
+			user = request.user
+		)
 	return render(request, 'main/home.html', {'posts': posts})
 
 def filter(request):
