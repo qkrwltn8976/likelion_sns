@@ -9,6 +9,7 @@ from . import views
 app_name = "main"
 urlpatterns = [
 	path('', views.home, name="home"),
+	#path('login/', views.login, name="login"),
 	path('new_post/', views.new_post, name="new_post"),
 	path('my_posts/', views.my_posts, name="my_posts"),
 	path('filter/', views.filter, name="filter"),

@@ -10,7 +10,10 @@ def home(request):
 		posts = Post.objects.exclude(
 			user = request.user
 		)
+	else:
+		posts = Post.objects.all()
 	return render(request, 'main/home.html', {'posts': posts})
+
 
 def filter(request):
 	user = request.user
@@ -44,27 +47,31 @@ def filter(request):
 	return render(request, 'main/home.html', {'posts': posts})
 
 def new_post(request):
-	##user = request.user
-	form = PostForm(request.POST, request.FILES or None)
-	##form.fields['user'].widget = forms.HiddenInput()
-	##form.fields['user'].initial = request.user
-	if request.method == "POST":
-		##form = PostForm(request.POST, request.FILES or None)
-		if form.is_valid():
-			post = form.save(commit = False)
-			post.user = request.user
-			post.save()
-			return redirect('main:home')
+	if request.user.is_active:
+		form = PostForm(request.POST, request.FILES or None)
+		##form.fields['user'].widget = forms.HiddenInput()
+		##form.fields['user'].initial = request.user
+		if request.method == "POST":
+			##form = PostForm(request.POST, request.FILES or None)
+			if form.is_valid():
+				post = form.save(commit = False)
+				post.user = request.user
+				post.save()
+				return redirect('main:home')
+		else:
+			form = PostForm()
+		return render(request, 'main/new_post.html', {'form': form})
 	else:
-		form = PostForm()
-	return render(request, 'main/new_post.html', {'form': form})
-
+		return redirect('account_login')
 
 def my_posts(request):
-	posts = Post.objects.filter(
-		user = request.user
-	)
-	return render(request, 'main/my_posts.html', {'posts': posts})
+	if request.user.is_active:
+		posts = Post.objects.filter(
+			user = request.user
+		)
+		return render(request, 'main/my_posts.html', {'posts': posts})
+	else:
+		return redirect('account_login')
 
 
 def profile(request, id):
@@ -95,39 +102,45 @@ def profile(request, id):
 
 
 def follow(request, id):
-	user = request.user
-	selected_user = get_object_or_404(User, pk=id)
-	if request.method == "POST":
-		t = ''
-		if request.POST['type'] == "friend":
-			t = 'f'
-		elif request.POST['type'] == "acquaintance":
-			t = 'a'
-		elif request.POST['type'] == "celebrity":
-			t = 'c'
-		if Relation.objects.filter(from_user=user, to_user=selected_user, type=t).exists():
-			r = Relation.objects.filter(from_user=user, to_user=selected_user, type=t)
-			r.delete()
-		else:
-			Relation.objects.create(from_user=user, to_user=selected_user, type=t)
-	return redirect('main:profile', selected_user.id)
+	if request.user.is_active:
+		user = request.user
+		selected_user = get_object_or_404(User, pk=id)
+		if request.method == "POST":
+			t = ''
+			if request.POST['type'] == "friend":
+				t = 'f'
+			elif request.POST['type'] == "acquaintance":
+				t = 'a'
+			elif request.POST['type'] == "celebrity":
+				t = 'c'
+			if Relation.objects.filter(from_user=user, to_user=selected_user, type=t).exists():
+				r = Relation.objects.filter(from_user=user, to_user=selected_user, type=t)
+				r.delete()
+			else:
+				Relation.objects.create(from_user=user, to_user=selected_user, type=t)
+		return redirect('main:profile', selected_user.id)
+	else:
+		return redirect('account_login')
 
 
 def like_toggle(request, id):
-	post = get_object_or_404(Post, pk=id)
-    # 요청한 사용자
-	user = request.user
+	if request.user.is_active:
+		post = get_object_or_404(Post, pk=id)
+	    # 요청한 사용자
+		user = request.user
 
-    # 사용자의 like_posts목록에서 like_toggle할 Post가 있는지 확인
-	filtered_like_posts = user.like.filter(pk=id)
-    # 존재할경우, like_posts목록에서 해당 Post를 삭제
-	if filtered_like_posts.exists():
-		user.like.remove(post)
-    # 없을 경우, like_posts목록에 해당 Post를 추가
+	    # 사용자의 like_posts목록에서 like_toggle할 Post가 있는지 확인
+		filtered_like_posts = user.like.filter(pk=id)
+	    # 존재할경우, like_posts목록에서 해당 Post를 삭제
+		if filtered_like_posts.exists():
+			user.like.remove(post)
+	    # 없을 경우, like_posts목록에 해당 Post를 추가
+		else:
+			user.like.add(post)
+
+		return redirect('main:detail_post', id)
 	else:
-		user.like.add(post)
-
-	return redirect('main:detail_post', id)
+		return redirect('account_login')
 
 
 def detail_post(request, id):

@@ -1,0 +1,41 @@
+{% extends 'base.html' %} <!-- base.html의 내용을 가져오겠다. -->
+{% load staticfiles %}
+{% block content %}
+<section id="galleries">	<!-- Photo Galleries -->
+	<div class="gallery center">
+		<div class="content">
+			<h1>SNS</h1>
+			<form class="login" method="POST" action="{% url 'login' %}"> 
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                            <input
+                                name="username"
+                                class="form-control"
+                                placeholder="Your Name"
+                                required=""
+                                autofocus="autofocus"
+                                id="username"
+                                type="text"
+                            />
+                            </div>
+                            <br>
+                            <div class="form-group col-md-12">
+                            <input
+                                name="password"
+                                class="form-control"
+                                placeholder="Password"
+                                required=""
+                                type="password"
+                                id="id_password1"
+                            />
+                        </div>
+                        <br><br><br>
+                        <div class="form-group col-md-12">
+                            <button class="btn buy-now">Sign In</button>
+                        </div>
+                        </form>
+		</div>
+	</div>
+</section>
+{% endblock %} 
